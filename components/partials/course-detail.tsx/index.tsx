@@ -1,12 +1,24 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { ChevronLeft, PlayCircleIcon } from 'lucide-react';
 import Image from 'next/image';
+
+const COURSES = Array.from({ length: 18 }).map((_, i) => ({
+  id: i + 1,
+  name: `Course ${i + 1} - Lorem Ipsum Dolor ${i + 1}`,
+  pass: false,
+}));
 
 export default function CourseListDetail() {
   return (
     <section className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Button variant="secondary" className="flex items-center gap-5">
+        <ChevronLeft />
+        <div>Back</div>
+      </Button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="col-span-1">
           <div className="border-b border-zinc-700 pb-8">
             <div className="relative h-[220px] w-[220px] mb-3">
@@ -49,6 +61,10 @@ export default function CourseListDetail() {
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab
                 nobis voluptas maxime ea maiores doloremque quod, illum dolor
                 veritatis possimus ipsam mollitia facilis repellendus quo
+                impedit ratione architecto aspernatur dolore. illum dolor
+                veritatis possimus ipsam mollitia facilis repellendus quo
+                impedit ratione architecto aspernatur dolore. illum dolor
+                veritatis possimus ipsam mollitia facilis repellendus quo
                 impedit ratione architecto aspernatur dolore.
               </div>
             </div>
@@ -72,6 +88,10 @@ export default function CourseListDetail() {
               <div className="text-gray-400">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab
                 nobis voluptas maxime ea maiores doloremque quod, illum dolor
+                veritatis possimus ipsam mollitia facilis repellendus quo
+                impedit ratione architecto aspernatur dolore. illum dolor
+                veritatis possimus ipsam mollitia facilis repellendus quo
+                impedit ratione architecto aspernatur dolore. illum dolor
                 veritatis possimus ipsam mollitia facilis repellendus quo
                 impedit ratione architecto aspernatur dolore.
               </div>
@@ -97,7 +117,21 @@ export default function CourseListDetail() {
               <div className="font-bold">Module List</div>
             </CardHeader>
             <CardContent className="space-y-1 text-sm text-muted-foreground py-4">
-              <div className="flex items-center justify-between"></div>
+              {COURSES.map((item, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between border-b py-4"
+                  >
+                    <div className="font-semibold py-2">{item.name}</div>
+                    <div>
+                      <Button variant="default" size="icon">
+                        <PlayCircleIcon />
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
             </CardContent>
           </Card>
         </div>
