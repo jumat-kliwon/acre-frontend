@@ -22,6 +22,7 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
+import { useRouter } from 'next/navigation';
 
 const stats = [
   {
@@ -118,6 +119,8 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export function DashboardStats() {
+  const router = useRouter();
+
   return (
     <section className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -138,12 +141,14 @@ export function DashboardStats() {
                     <Button
                       size="sm"
                       className="bg-orange-600 text-white text-sm"
+                      onClick={() => router.push('/member/profile')}
                     >
                       <Settings />
                     </Button>
                     <Button
                       size="sm"
                       className="bg-blue-600 text-white text-sm"
+                      onClick={() => router.push('/member/certificates')}
                     >
                       <BadgeCheckIcon />
                       My Certificate
@@ -184,7 +189,11 @@ export function DashboardStats() {
               {/* Header */}
               <div className="flex items-center justify-between">
                 <p className="text-sm font-bold text-gray-100">Last Updated</p>
-                <Button variant="link" className="h-auto p-0 text-sm">
+                <Button
+                  variant="link"
+                  className="h-auto p-0 text-sm"
+                  onClick={() => router.push('/member/notifications')}
+                >
                   View All
                 </Button>
               </div>
@@ -278,6 +287,9 @@ export function DashboardStats() {
                             <Button
                               size="sm"
                               className="w-full bg-green-600 text-white text-sm"
+                              onClick={() =>
+                                router.push('/member/certificates/1')
+                              }
                             >
                               View Certificate
                             </Button>
@@ -285,6 +297,7 @@ export function DashboardStats() {
                             <Button
                               size="sm"
                               className="w-full bg-purple-600 text-white text-sm"
+                              onClick={() => router.push('/member/courses/1')}
                             >
                               Continue
                             </Button>
@@ -316,6 +329,7 @@ export function DashboardStats() {
                           size="sm"
                           variant="secondary"
                           className="bg-green-600 text-white"
+                          onClick={() => router.push('/member/certificates/1')}
                         >
                           View Certificate
                         </Button>
@@ -324,6 +338,7 @@ export function DashboardStats() {
                           size="sm"
                           variant="secondary"
                           className="bg-purple-600 text-white"
+                          onClick={() => router.push('/member/courses/1')}
                         >
                           Continue
                         </Button>

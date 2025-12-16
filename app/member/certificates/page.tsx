@@ -1,6 +1,6 @@
 import CertificateList from '@/components/partials/certificate-list.tsx';
 
-export default function CoomingSoon() {
+export default function Certificate() {
   return (
     <div>
       <CertificateList />

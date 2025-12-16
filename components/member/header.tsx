@@ -68,12 +68,18 @@ export default function MemberHeader() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-white/10" />
 
-              <DropdownMenuItem className="hover:bg-white/10">
+              <DropdownMenuItem
+                className="hover:bg-white/10"
+                onClick={() => router.push('/member/profile')}
+              >
                 <User className="mr-2 h-4 w-4" />
                 Profile
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="hover:bg-white/10">
+              <DropdownMenuItem
+                className="hover:bg-white/10"
+                onClick={() => router.push('/member/settings')}
+              >
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </DropdownMenuItem>
@@ -88,7 +94,10 @@ export default function MemberHeader() {
 
               <DropdownMenuSeparator className="bg-white/10" />
 
-              <DropdownMenuItem className="text-red-500 hover:bg-red-500/10 focus:text-red-500">
+              <DropdownMenuItem
+                className="text-red-500 hover:bg-red-500/10 focus:text-red-500"
+                onClick={() => router.push('/auth/login')}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout
               </DropdownMenuItem>

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { BadgeCheck, ArrowUpDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const PAGE_SIZE = 8;
 
@@ -19,6 +20,7 @@ const COURSES = Array.from({ length: 20 }).map((_, i) => ({
 }));
 
 export default function CertificateList() {
+  const router = useRouter();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [sortDesc, setSortDesc] = useState(true); // true = newest first
@@ -81,7 +83,11 @@ export default function CertificateList() {
       {/* ===================== List ===================== */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {paginated.map((course) => (
-          <Card key={course.id} className="relative p-0 gap-0">
+          <Card
+            key={course.id}
+            className="relative p-0 gap-0 cursor-pointer"
+            onClick={() => router.push('/member/certificates/1')}
+          >
             <CardHeader className="p-0 mb-0">
               <div className="relative h-[140px] w-full">
                 <Image

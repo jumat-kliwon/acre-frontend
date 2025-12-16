@@ -12,6 +12,14 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { BadgeCheckIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { useState } from 'react';
 
 const myCourses = [
   {
@@ -43,6 +51,8 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export function OrderBill() {
+  const [open, onOpenChange] = useState(false);
+
   return (
     <section className="space-y-10">
       <div className="text-center flex flex-col items-center justify-center space-y-3">
@@ -117,6 +127,7 @@ export function OrderBill() {
                         size="sm"
                         variant="secondary"
                         className="bg-purple-600 text-white text-sm"
+                        onClick={() => onOpenChange(true)}
                       >
                         View Invoice
                       </Button>
@@ -128,6 +139,66 @@ export function OrderBill() {
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Invoice Detail</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex justify-between text-sm">
+              <div>
+                <p className="font-medium">Invoice No</p>
+                <p className="text-muted-foreground">INV-2025-001</p>
+              </div>
+              <div className="text-right">
+                <p className="font-medium">Date</p>
+                <p className="text-muted-foreground">15 Dec 2025</p>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Customer */}
+            <div className="text-sm">
+              <p className="font-medium">Bill To</p>
+              <p className="text-muted-foreground">
+                PT Academi Creator Indonesia
+              </p>
+            </div>
+
+            <Separator />
+
+            {/* Items */}
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span>Package</span>
+                <span>Rp 2.500.000</span>
+              </div>
+              <div className="flex justify-between">
+                <span>PPN</span>
+                <span>Rp 58.000</span>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Total */}
+            <div className="flex justify-between font-semibold">
+              <span>Total</span>
+              <span>Rp 2.558.000</span>
+            </div>
+
+            {/* Actions */}
+            {/* <div className="flex justify-end gap-2 pt-2">
+              <Button variant="secondary">Close</Button>
+              <Button>Download PDF</Button>
+            </div> */}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

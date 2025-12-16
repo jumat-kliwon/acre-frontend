@@ -23,9 +23,35 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export function AffiliateDashboard() {
   const [range, setRange] = useState<DateRange | undefined>();
+  const [open, onOpenChange] = useState(false);
+  const [form, setForm] = useState({
+    bankName: '',
+    bankOwner: '',
+    accountNumber: '',
+    amount: '',
+  });
+
+  const handleChange = (key: keyof typeof form, value: string) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = () => {
+    console.log('withdrawal payload', form);
+    // TODO: call API withdrawal
+    onOpenChange(false);
+  };
 
   const links = [
     {
@@ -87,7 +113,11 @@ export function AffiliateDashboard() {
                   IDR {formatCurrency(321300)}
                 </p>
 
-                <Button size="sm" className="bg-blue-600 text-white text-sm">
+                <Button
+                  size="sm"
+                  className="bg-blue-600 text-white text-sm"
+                  onClick={() => onOpenChange(true)}
+                >
                   Withdrawal
                 </Button>
               </div>
@@ -314,6 +344,63 @@ export function AffiliateDashboard() {
           </Card>
         </div>
       </div>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Withdrawal Detail</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="bankName">Bank Name</Label>
+              <Input
+                id="bankName"
+                placeholder="BCA / BNI / Mandiri"
+                value={form.bankName}
+                onChange={(e) => handleChange('bankName', e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bankOwner">Bank Owner</Label>
+              <Input
+                id="bankOwner"
+                placeholder="Nama Pemilik Rekening"
+                value={form.bankOwner}
+                onChange={(e) => handleChange('bankOwner', e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="accountNumber">Account Number</Label>
+              <Input
+                id="accountNumber"
+                placeholder="Nomor Rekening"
+                value={form.accountNumber}
+                onChange={(e) => handleChange('accountNumber', e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="amount">Nominal</Label>
+              <Input
+                id="amount"
+                placeholder="Rp 0"
+                type="number"
+                value={form.amount}
+                onChange={(e) => handleChange('amount', e.target.value)}
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="mt-6 flex gap-2">
+            <Button variant="secondary" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit}>Submit Withdrawal</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
