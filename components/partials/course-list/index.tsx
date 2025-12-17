@@ -148,6 +148,8 @@ export default function CourseList() {
                   alt={course.name}
                   fill
                   className="object-cover rounded-t-lg"
+                  priority
+                  unoptimized
                 />
               </div>
             </CardHeader>

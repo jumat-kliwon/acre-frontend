@@ -254,6 +254,8 @@ export function DashboardStats() {
                           width={40}
                           height={40}
                           className="rounded-md"
+                          priority
+                          unoptimized
                         />
                         <span className="font-medium">{course.title}</span>
                       </div>

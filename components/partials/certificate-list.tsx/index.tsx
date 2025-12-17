@@ -95,6 +95,8 @@ export default function CertificateList() {
                   alt={course.name}
                   fill
                   className="object-cover rounded-t-lg"
+                  priority
+                  unoptimized
                 />
               </div>
             </CardHeader>

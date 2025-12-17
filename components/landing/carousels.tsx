@@ -28,6 +28,7 @@ export default function CaseStudyCarousel({ images }: CaseStudyCarouselProps) {
                     fill
                     className="object-cover"
                     priority={index === 0}
+                    unoptimized
                   />
                 </div>
               </CarouselItem>

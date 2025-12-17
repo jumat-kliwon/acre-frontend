@@ -33,6 +33,8 @@ export default function MemberHeader() {
             width={150}
             height={20}
             className="object-contain md:hidden"
+            priority
+            unoptimized
           />
         </div>
 

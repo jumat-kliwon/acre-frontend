@@ -33,6 +33,8 @@ export default function CourseListDetail() {
                 alt="image detail"
                 fill
                 className="object-cover rounded-lg"
+                priority
+                unoptimized
               />
             </div>
 

@@ -244,6 +244,8 @@ export default function Home() {
                         width={200}
                         height={200}
                         alt="img"
+                        priority
+                        unoptimized
                       />
                       <div className="uppercase font-bold text-xl md:text-2xl text-center md:text-start">
                         {item.title}
@@ -274,6 +276,7 @@ export default function Home() {
                 fill
                 className="object-cover"
                 priority
+                unoptimized
               />
             </div>
             <h2 className="text-center text-3xl md:text-4xl font-bold text-white mb-14">
@@ -289,6 +292,7 @@ export default function Home() {
                 fill
                 className="object-cover"
                 priority
+                unoptimized
               />
             </div>
             <h2 className="text-center text-3xl md:text-4xl font-bold text-white mb-14">
@@ -316,6 +320,8 @@ export default function Home() {
               src="https://akademicreator.com/wp-content/uploads/2024/07/Vector-7499.webp"
               alt="separator"
               fill
+              priority
+              unoptimized
             />
           </div>
           <div className="relative w-full h-[100px] md:h-[200px]">
@@ -324,6 +330,8 @@ export default function Home() {
               alt="separator"
               fill
               className="object-contain"
+              priority
+              unoptimized
             />
           </div>
           <div className="pb-10">
@@ -353,6 +361,8 @@ export default function Home() {
                       alt={item.title}
                       fill
                       className="object-cover"
+                      priority
+                      unoptimized
                     />
                   </div>
 

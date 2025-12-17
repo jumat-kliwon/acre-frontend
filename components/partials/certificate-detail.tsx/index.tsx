@@ -26,6 +26,8 @@ export default function CertificateDetail() {
               width={150}
               height={20}
               className="object-contain"
+              priority
+              unoptimized
             />
           </div>
           <div className="flex flex-col items-center justify-center p-4 gap-4">

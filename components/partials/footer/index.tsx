@@ -14,6 +14,8 @@ export default function Footer() {
               width={150}
               height={20}
               className="object-contain"
+              priority
+              unoptimized
             />
             <p className="text-sm text-gray-400">
               CV Akademi Creator Indonesia
