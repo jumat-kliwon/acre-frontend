@@ -17,6 +17,7 @@ export default function HeaderLanding() {
           height={32}
           className="object-contain"
           priority
+          unoptimized
         />
 
         {/* Actions */}
