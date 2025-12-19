@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function HeaderLanding() {
   const router = useRouter();
   return (
-    <header className="w-full bg-black">
+    <header className="w-full fixed z-99">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Image
@@ -30,7 +30,7 @@ export default function HeaderLanding() {
             Login
           </Button>
           <Button
-            className="h-10 rounded-xl bg-red-600 hover:bg-red-700 text-white text-base"
+            className="h-10 rounded-xl bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-base"
             onClick={() => router.push('/auth/login')}
           >
             Register

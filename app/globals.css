@@ -125,4 +125,13 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+
+  .swiperss .swiper-pagination-bullet {
+    background: #555 !important;
+    opacity: 1;
+  }
+
+  .swiperss .swiper-pagination-bullet-active {
+    background: #ef4444 !important;
+  }
 }

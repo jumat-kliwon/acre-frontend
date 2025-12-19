@@ -115,7 +115,7 @@ export function AffiliateDashboard() {
 
                 <Button
                   size="sm"
-                  className="bg-blue-600 text-white text-sm"
+                  className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm"
                   onClick={() => onOpenChange(true)}
                 >
                   Withdrawal

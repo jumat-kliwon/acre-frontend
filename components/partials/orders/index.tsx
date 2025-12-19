@@ -106,7 +106,7 @@ export function OrderBill() {
                         <Button
                           size="sm"
                           variant="secondary"
-                          className="bg-purple-600 text-white text-sm w-full"
+                          className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm w-full"
                         >
                           View Invoice
                         </Button>
@@ -126,7 +126,7 @@ export function OrderBill() {
                       <Button
                         size="sm"
                         variant="secondary"
-                        className="bg-purple-600 text-white text-sm"
+                        className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm"
                         onClick={() => onOpenChange(true)}
                       >
                         View Invoice

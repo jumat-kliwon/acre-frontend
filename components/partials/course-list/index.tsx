@@ -142,9 +142,9 @@ export default function CourseList() {
             }}
           >
             <CardHeader className="p-0 mb-0">
-              <div className="relative h-[100px] w-full">
+              <div className="relative h-[200px] w-full">
                 <Image
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVWQbeeeLz1nFVXOPMYFVhx5zhHawIITbYDQ&s"
+                  src="https://member.akademicreator.com/wp-content/uploads/2023/07/0.-FAST-TRACK-CREATOR-600x400.webp"
                   alt={course.name}
                   fill
                   className="object-cover rounded-t-lg"

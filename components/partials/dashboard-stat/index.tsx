@@ -140,14 +140,14 @@ export function DashboardStats() {
                   <div className="flex gap-2 mt-3 md:mt-0">
                     <Button
                       size="sm"
-                      className="bg-orange-600 text-white text-sm"
+                      className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm"
                       onClick={() => router.push('/member/profile')}
                     >
                       <Settings />
                     </Button>
                     <Button
                       size="sm"
-                      className="bg-blue-600 text-white text-sm"
+                      className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm"
                       onClick={() => router.push('/member/certificates')}
                     >
                       <BadgeCheckIcon />
@@ -288,7 +288,7 @@ export function DashboardStats() {
                           {course.status === 'complete' ? (
                             <Button
                               size="sm"
-                              className="w-full bg-green-600 text-white text-sm"
+                              className="w-full bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm"
                               onClick={() =>
                                 router.push('/member/certificates/1')
                               }
@@ -298,7 +298,7 @@ export function DashboardStats() {
                           ) : (
                             <Button
                               size="sm"
-                              className="w-full bg-purple-600 text-white text-sm"
+                              className="w-full bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-sm"
                               onClick={() => router.push('/member/courses/1')}
                             >
                               Continue
@@ -330,7 +330,7 @@ export function DashboardStats() {
                         <Button
                           size="sm"
                           variant="secondary"
-                          className="bg-green-600 text-white"
+                          className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white"
                           onClick={() => router.push('/member/certificates/1')}
                         >
                           View Certificate
@@ -339,7 +339,7 @@ export function DashboardStats() {
                         <Button
                           size="sm"
                           variant="secondary"
-                          className="bg-purple-600 text-white"
+                          className="bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 cursor-pointer text-white"
                           onClick={() => router.push('/member/courses/1')}
                         >
                           Continue
