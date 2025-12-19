@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "placehold.co",
+      },
+      {
+        protocol: "https",
+        hostname: "vz-978da97e-8a0.b-cdn.net",
       }
     ]
   }
