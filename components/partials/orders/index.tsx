@@ -141,7 +141,7 @@ export function OrderBill() {
       </Card>
 
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="w-full md:max-w-md">
           <DialogHeader>
             <DialogTitle>Invoice Detail</DialogTitle>
           </DialogHeader>

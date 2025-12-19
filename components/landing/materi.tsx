@@ -82,6 +82,8 @@ export default function Materi() {
                   alt={item.title}
                   fill
                   className="object-cover"
+                  priority
+                  unoptimized
                 />
               </div>
 

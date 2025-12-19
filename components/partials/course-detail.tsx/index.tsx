@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
+  BadgeCheckIcon,
   CheckCheck,
   CheckCheckIcon,
   ChevronLeft,
@@ -21,6 +22,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 const COURSES = Array.from({ length: 18 }).map((_, i) => ({
   id: i + 1,
@@ -35,6 +42,7 @@ export default function CourseListDetail() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoMode, setVideoMode] = useState(false);
   const [openSheet, setOpenSheet] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const handlePlay = () => {
     videoRef.current?.play();
@@ -96,7 +104,7 @@ export default function CourseListDetail() {
                 variant="secondary"
                 className="flex items-center gap-5 mb-6 bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black"
                 onClick={() => {
-                  setVideoMode(false);
+                  setOpenConfirm(true);
                 }}
               >
                 <CheckCheck />
@@ -311,6 +319,46 @@ export default function CourseListDetail() {
           </div>
         </div>
       )}
+
+      <Dialog open={openConfirm} onOpenChange={setOpenConfirm}>
+        <DialogContent className="w-full md:max-w-md">
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex flex-col items-center justify-center text-sm">
+              <BadgeCheckIcon size={100} className="mb-6" />
+              <div className="text-center text-3xl font-bold">Successfully</div>
+              <div className="text-center font-semibold text-gray-300 mt-3">
+                Go to the next module ?
+              </div>
+
+              <div className="flex items-center justify-between mt-10 w-full gap-6">
+                <Button
+                  variant="secondary"
+                  className="w-1/3 flex items-center gap-5 mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 cursor-pointer hover:bg-black"
+                  onClick={() => {
+                    setVideoMode(false);
+                    setOpenConfirm(false);
+                  }}
+                >
+                  <div>Later</div>
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  className="w-1/3 flex items-center gap-5 mb-6 bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black"
+                  onClick={() => {
+                    setVideoMode(true);
+                    setOpenConfirm(false);
+                  }}
+                >
+                  <CheckCheck />
+                  <div>Yes !</div>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
