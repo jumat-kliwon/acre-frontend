@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { toTitleCase } from '@/lib/helpers';
 
 /* =====================
    Dummy Data
@@ -28,6 +29,8 @@ const COURSES = Array.from({ length: 50 }).map((_, i) => ({
 const PAGE_SIZE = 12;
 
 export default function CourseList() {
+  const searchParams = useSearchParams();
+  const overview = searchParams.get('courses');
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [instructor, setInstructor] = useState('all');
@@ -60,21 +63,25 @@ export default function CourseList() {
   const resetPage = () => setPage(1);
 
   return (
-    <section className="space-y-6">
-      {/* ===================== Filters ===================== */}
-      <Card>
-        <CardContent>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            <Input
-              placeholder="Search course name"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                resetPage();
-              }}
-            />
+    <Suspense>
+      <section className="space-y-6">
+        <div className="text-2xl text-gray-100 font-semibold">
+          Course of {toTitleCase(overview ?? '')}
+        </div>
+        {/* ===================== Filters ===================== */}
+        <Card>
+          <CardContent>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <Input
+                placeholder="Search course name"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  resetPage();
+                }}
+              />
 
-            <Select
+              {/* <Select
               value={category}
               onValueChange={(v) => {
                 setCategory(v);
@@ -90,112 +97,115 @@ export default function CourseList() {
                 <SelectItem value="Development">Development</SelectItem>
                 <SelectItem value="Data">Data</SelectItem>
               </SelectContent>
-            </Select>
+            </Select> */}
 
-            <Select
-              value={instructor}
-              onValueChange={(v) => {
-                setInstructor(v);
-                resetPage();
+              <Select
+                value={instructor}
+                onValueChange={(v) => {
+                  setInstructor(v);
+                  resetPage();
+                }}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Instructor" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Instructor</SelectItem>
+                  <SelectItem value="John Doe">John Doe</SelectItem>
+                  <SelectItem value="Jane Smith">Jane Smith</SelectItem>
+                  <SelectItem value="Alex Johnson">Alex Johnson</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={level}
+                onValueChange={(v) => {
+                  setLevel(v);
+                  resetPage();
+                }}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Level" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Level</SelectItem>
+                  <SelectItem value="Beginner">Beginner</SelectItem>
+                  <SelectItem value="Intermediate">Intermediate</SelectItem>
+                  <SelectItem value="Advanced">Advanced</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ===================== List ===================== */}
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {paginated.map((course) => (
+            <Card
+              key={course.id}
+              className="relative p-0 gap-0 cursor-pointer"
+              onClick={() => {
+                router.push(`/member/courses/1`);
               }}
             >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Instructor" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Instructor</SelectItem>
-                <SelectItem value="John Doe">John Doe</SelectItem>
-                <SelectItem value="Jane Smith">Jane Smith</SelectItem>
-                <SelectItem value="Alex Johnson">Alex Johnson</SelectItem>
-              </SelectContent>
-            </Select>
+              <CardHeader className="p-0 mb-0">
+                <div className="relative h-[200px] w-full">
+                  <Image
+                    src="https://member.akademicreator.com/wp-content/uploads/2023/07/0.-FAST-TRACK-CREATOR-600x400.webp"
+                    alt={course.name}
+                    fill
+                    className="object-cover rounded-t-lg"
+                    priority
+                    unoptimized
+                  />
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-1 text-sm text-muted-foreground py-4">
+                <h3 className="font-semibold h-[50px]">
+                  {course.name} of {course.category}
+                </h3>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-xs text-gray-500">Category</div>{' '}
+                  <div className="text-xs text-gray-100">{course.category}</div>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-xs text-gray-500">Instructor</div>{' '}
+                  <div className="text-xs text-gray-100">
+                    {course.instructor}
+                  </div>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-xs text-gray-500">Level</div>{' '}
+                  <div className="text-xs text-gray-100">{course.level}</div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-            <Select
-              value={level}
-              onValueChange={(v) => {
-                setLevel(v);
-                resetPage();
-              }}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Level" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Level</SelectItem>
-                <SelectItem value="Beginner">Beginner</SelectItem>
-                <SelectItem value="Intermediate">Intermediate</SelectItem>
-                <SelectItem value="Advanced">Advanced</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* ===================== List ===================== */}
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {paginated.map((course) => (
-          <Card
-            key={course.id}
-            className="relative p-0 gap-0 cursor-pointer"
-            onClick={() => {
-              router.push(`/member/courses/1`);
-            }}
+        {/* ===================== Pagination ===================== */}
+        <div className="flex items-center justify-center gap-2">
+          <Button
+            variant="outline"
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
           >
-            <CardHeader className="p-0 mb-0">
-              <div className="relative h-[200px] w-full">
-                <Image
-                  src="https://member.akademicreator.com/wp-content/uploads/2023/07/0.-FAST-TRACK-CREATOR-600x400.webp"
-                  alt={course.name}
-                  fill
-                  className="object-cover rounded-t-lg"
-                  priority
-                  unoptimized
-                />
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-1 text-sm text-muted-foreground py-4">
-              <h3 className="font-semibold h-[50px]">
-                {course.name} of {course.category}
-              </h3>
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-xs text-gray-500">Category</div>{' '}
-                <div className="text-xs text-gray-100">{course.category}</div>
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-xs text-gray-500">Instructor</div>{' '}
-                <div className="text-xs text-gray-100">{course.instructor}</div>
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-xs text-gray-500">Level</div>{' '}
-                <div className="text-xs text-gray-100">{course.level}</div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            Prev
+          </Button>
 
-      {/* ===================== Pagination ===================== */}
-      <div className="flex items-center justify-center gap-2">
-        <Button
-          variant="outline"
-          disabled={page === 1}
-          onClick={() => setPage((p) => p - 1)}
-        >
-          Prev
-        </Button>
+          <span className="text-sm text-muted-foreground">
+            Page {page} of {totalPages}
+          </span>
 
-        <span className="text-sm text-muted-foreground">
-          Page {page} of {totalPages}
-        </span>
-
-        <Button
-          variant="outline"
-          disabled={page === totalPages}
-          onClick={() => setPage((p) => p + 1)}
-        >
-          Next
-        </Button>
-      </div>
-    </section>
+          <Button
+            variant="outline"
+            disabled={page === totalPages}
+            onClick={() => setPage((p) => p + 1)}
+          >
+            Next
+          </Button>
+        </div>
+      </section>
+    </Suspense>
   );
 }

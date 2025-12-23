@@ -22,12 +22,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const COURSES = Array.from({ length: 18 }).map((_, i) => ({
   id: i + 1,
@@ -43,6 +39,13 @@ export default function CourseListDetail() {
   const [videoMode, setVideoMode] = useState(false);
   const [openSheet, setOpenSheet] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
+
+  const { setOpen } = useSidebar();
+
+  const videoModeChange = (b: boolean) => {
+    setOpen(!b);
+    setVideoMode(b);
+  };
 
   const handlePlay = () => {
     videoRef.current?.play();
@@ -70,7 +73,7 @@ export default function CourseListDetail() {
                       : 'bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black'
                   }`}
                   onClick={() => {
-                    setVideoMode(true);
+                    videoModeChange(true);
                     setOpenSheet(false);
                   }}
                 >
@@ -84,99 +87,139 @@ export default function CourseListDetail() {
     );
   };
 
+  const cardPlayList = () => {
+    return (
+      <div className={`col-span-1 ${videoMode && 'hidden md:block'}`}>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="font-bold">Module List</div>
+              <div className="flex items-center gap-3">
+                <Progress
+                  value={20}
+                  className="
+                      h-[10px]
+                      w-[120px]
+                      rounded-full
+                      bg-white/10
+                      [&>div]:bg-gradient-to-r
+                      [&>div]:from-red-500
+                      [&>div]:to-red-900
+                      [&>div]:rounded-full
+                      [&>div]:transition-all
+                    "
+                />
+                <div className="text-white font-semibold text-sm">{20}%</div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-1 text-sm text-muted-foreground py-4">
+            {playList()}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
+
   return (
     <section className="space-y-6">
       {videoMode ? (
-        <div>
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <Button
-              variant="secondary"
-              className="flex items-center gap-5 mb-6"
-              onClick={() => {
-                setVideoMode(false);
-              }}
-            >
-              <ChevronLeft />
-              <div>Return to Course</div>
-            </Button>
-            <div className="flex items-center gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {cardPlayList()}
+
+          <div className="col-span-1 md:col-span-2">
+            <div className="flex flex-col md:flex-row items-center justify-between">
               <Button
                 variant="secondary"
-                className="flex items-center gap-5 mb-6 bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black"
+                className="flex items-center gap-5 mb-6"
                 onClick={() => {
-                  setOpenConfirm(true);
+                  videoModeChange(false);
                 }}
               >
-                <CheckCheck />
-                <div>Mark as done</div>
+                <ChevronLeft />
+                <div>Return to Course</div>
               </Button>
-              <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    className="flex items-center gap-5 mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 cursor-pointer hover:bg-black"
-                  >
-                    <VideoIcon />
-                    <div>Show Modules</div>
-                  </Button>
-                </SheetTrigger>
+              <div className="flex items-center gap-5">
+                <Button
+                  variant="secondary"
+                  className="flex items-center gap-5 mb-6 bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black"
+                  onClick={() => {
+                    setOpenConfirm(true);
+                  }}
+                >
+                  <CheckCheck />
+                  <div>Mark as done</div>
+                </Button>
+                <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+                  <SheetTrigger asChild>
+                    <Button
+                      variant="secondary"
+                      className="flex items-center gap-5 mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 cursor-pointer hover:bg-black md:hidden"
+                    >
+                      <VideoIcon />
+                      <div>Show Modules</div>
+                    </Button>
+                  </SheetTrigger>
 
-                <SheetContent side="right">
-                  <SheetHeader>
-                    <SheetTitle>Module List</SheetTitle>
-                  </SheetHeader>
+                  <SheetContent side="right">
+                    <SheetHeader>
+                      <SheetTitle>Module List</SheetTitle>
+                    </SheetHeader>
 
-                  <div className="mt-4 overflow-y-auto px-5">{playList()}</div>
-                </SheetContent>
-              </Sheet>
+                    <div className="mt-4 overflow-y-auto px-5">
+                      {playList()}
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
             </div>
-          </div>
-          <section
-            className={`transition-opacity duration-500 ${
-              videoMode
-                ? 'opacity-100 w-full bg-black py-6 border rounded-xl relative overflow-hidden'
-                : 'opacity-0'
-            }`}
-          >
-            {/* Banner Overlay */}
-            {!isPlaying && (
-              <button
-                onClick={handlePlay}
-                className="absolute inset-0 z-10 flex flex-col space-y-6 items-center justify-center group bg-zinc-900 cursor-pointer"
-                type="button"
-              >
-                {/* Play Button */}
-                <div className="relative z-10 flex items-center justify-center w-20 h-20 rounded-full bg-black/60 backdrop-blur-md group-hover:scale-110 transition">
-                  <Play />
-                </div>
-                <div className="text-center font-semibold">
-                  Press to play or pause
-                </div>
-              </button>
-            )}
+            <section
+              className={`transition-opacity duration-500${
+                videoMode
+                  ? 'opacity-100 w-full bg-black py-6 border rounded-xl relative overflow-hidden'
+                  : 'opacity-0'
+              }`}
+            >
+              {/* Banner Overlay */}
+              {!isPlaying && (
+                <button
+                  onClick={handlePlay}
+                  className="absolute inset-0 z-10 flex flex-col space-y-6 items-center justify-center group bg-zinc-900 cursor-pointer"
+                  type="button"
+                >
+                  {/* Play Button */}
+                  <div className="relative z-10 flex items-center justify-center w-20 h-20 rounded-full bg-black/60 backdrop-blur-md group-hover:scale-110 transition">
+                    <Play />
+                  </div>
+                  <div className="text-center font-semibold">
+                    Press to play or pause
+                  </div>
+                </button>
+              )}
 
-            {/* Video */}
-            <video
-              ref={videoRef}
-              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-              controls
-              className="w-full h-[520px] rounded-xl"
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-            />
-          </section>
-          <div className="font-bold text-gray-300 text-lg md:text-2xl my-6">
-            Course 1 of Course Lorem Ipsum Dolor - Development Phase 2025
-          </div>
-          <div className="text-gray-400 text-sm w-full md:w-1/2">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab nobis
-            voluptas maxime ea maiores doloremque quod, illum dolor veritatis
-            possimus ipsam mollitia facilis repellendus quo impedit ratione
-            architecto aspernatur dolore. illum dolor veritatis possimus ipsam
-            mollitia facilis repellendus quo impedit ratione architecto
-            aspernatur dolore. illum dolor veritatis possimus ipsam mollitia
-            facilis repellendus quo impedit ratione architecto aspernatur
-            dolore.
+              {/* Video */}
+              <video
+                ref={videoRef}
+                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                controls
+                className="w-full h-[520px] rounded-xl"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+              />
+            </section>
+            <div className="font-bold text-gray-300 text-lg md:text-2xl my-6">
+              Course 1 of Course Lorem Ipsum Dolor - Development Phase 2025
+            </div>
+            <div className="text-gray-400 text-sm w-full md:w-1/2">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab nobis
+              voluptas maxime ea maiores doloremque quod, illum dolor veritatis
+              possimus ipsam mollitia facilis repellendus quo impedit ratione
+              architecto aspernatur dolore. illum dolor veritatis possimus ipsam
+              mollitia facilis repellendus quo impedit ratione architecto
+              aspernatur dolore. illum dolor veritatis possimus ipsam mollitia
+              facilis repellendus quo impedit ratione architecto aspernatur
+              dolore.
+            </div>
           </div>
         </div>
       ) : (
@@ -286,37 +329,7 @@ export default function CourseListDetail() {
             </div>
           </div>
 
-          <div className="col-span-1">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="font-bold">Module List</div>
-                  <div className="flex items-center gap-3">
-                    <Progress
-                      value={20}
-                      className="
-                      h-[10px]
-                      w-[120px]
-                      rounded-full
-                      bg-white/10
-                      [&>div]:bg-gradient-to-r
-                      [&>div]:from-red-500
-                      [&>div]:to-red-900
-                      [&>div]:rounded-full
-                      [&>div]:transition-all
-                    "
-                    />
-                    <div className="text-white font-semibold text-sm">
-                      {20}%
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-1 text-sm text-muted-foreground py-4">
-                {playList()}
-              </CardContent>
-            </Card>
-          </div>
+          {cardPlayList()}
         </div>
       )}
 
@@ -336,7 +349,7 @@ export default function CourseListDetail() {
                   variant="secondary"
                   className="w-1/3 flex items-center gap-5 mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 cursor-pointer hover:bg-black"
                   onClick={() => {
-                    setVideoMode(false);
+                    videoModeChange(false);
                     setOpenConfirm(false);
                   }}
                 >
@@ -347,7 +360,7 @@ export default function CourseListDetail() {
                   variant="secondary"
                   className="w-1/3 flex items-center gap-5 mb-6 bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black"
                   onClick={() => {
-                    setVideoMode(true);
+                    videoModeChange(true);
                     setOpenConfirm(false);
                   }}
                 >

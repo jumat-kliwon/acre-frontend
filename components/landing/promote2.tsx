@@ -3,8 +3,11 @@
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 export default function Promote2() {
+  const router = useRouter();
+
   return (
     <div className="w-full md:max-w-1/3 text-center mb-5 flex flex-col justify-center items-center">
       <div className="text-center text-xs">
@@ -35,7 +38,10 @@ export default function Promote2() {
         />
       </div>
       <div className="pb-10">
-        <Button className="h-10 w-[180px] rounded-xl bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-base">
+        <Button
+          className="h-10 w-[180px] rounded-xl bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-base"
+          onClick={() => router.push('/auth/register')}
+        >
           Join Now <ArrowRight />
         </Button>
       </div>

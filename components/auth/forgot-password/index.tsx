@@ -31,7 +31,10 @@ export default function ForgotPass() {
         </div>
 
         {/* Button */}
-        <Button className="w-full h-12 rounded-xl bg-red-600 hover:bg-red-700 text-white text-base">
+        <Button
+          className="w-full h-12 rounded-xl bg-red-600 hover:bg-red-700 text-white text-base"
+          onClick={() => router.push('auth/reset-password')}
+        >
           SEND MAIL
         </Button>
 

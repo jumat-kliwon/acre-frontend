@@ -21,6 +21,7 @@ import {
   BadgeDollarSignIcon,
   BookOpen,
   ChevronDown,
+  Dot,
   IdCardIcon,
   LayoutDashboard,
   UserStarIcon,
@@ -39,6 +40,25 @@ const menuItems: SidebarItem[] = [
     title: 'Courses',
     href: '/member/courses',
     icon: BookOpen,
+    children: [
+      {
+        title: 'Content Fundamental',
+        href: '/member/courses?courses=content-fundamental',
+      },
+      {
+        title: 'Personal Branding',
+        href: '/member/courses?courses=personal-branding',
+      },
+      { title: 'Algorithm', href: '/member/courses?courses=algorithm' },
+      {
+        title: 'Video & Editing',
+        href: '/member/courses?courses=video-editing',
+      },
+      {
+        title: 'Artificial Intelegence',
+        href: '/member/courses?courses=artificial-intelegence',
+      },
+    ],
   },
   {
     title: 'Subscriptions',
@@ -90,8 +110,12 @@ export default function MemberSidebar() {
                     className="p-5"
                   >
                     <Link href={item.href}>
-                      <item.icon className="h-5 w-5 text-gray-500" />
-                      <div className="text-gray-100">{item.title}</div>
+                      <div className="flex items-center gap-3">
+                        <div className="text-gray-100 bg-white rounded-lg h-6 w-6 flex items-center justify-center">
+                          <item.icon className="h-3 w-3 text-black" />
+                        </div>
+                        <div className="text-gray-100">{item.title}</div>
+                      </div>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -124,16 +148,24 @@ function SidebarCollapsibleMenu({
   pathname: string;
 }) {
   const [open, setOpen] = useState(
-    item.children?.some((c) => c.href === pathname) ?? false,
+    item.children?.some((c) => c.href === pathname) ?? true,
   );
 
   return (
     <Collapsible open={open} onOpenChange={setOpen} className="space-y-1">
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
-          <SidebarMenuButton isActive={pathname.includes(item.href)}>
+          <SidebarMenuButton
+            isActive={pathname.includes(item.href)}
+            className="p-5"
+          >
             <div className="flex items-center justify-between w-full">
-              <span>{item.title}</span>
+              <div className="flex items-center gap-3">
+                <div className="text-gray-100 bg-white rounded-lg h-6 w-6 flex items-center justify-center">
+                  <item.icon className="h-3 w-3 text-black" />
+                </div>
+                <span>{item.title}</span>
+              </div>
               <ChevronDown
                 className={`h-4 w-4 transition-transform ${
                   open ? 'rotate-180' : ''
@@ -144,13 +176,20 @@ function SidebarCollapsibleMenu({
         </CollapsibleTrigger>
 
         {item.children && (
-          <CollapsibleContent className="ml-4 mt-1 space-y-1">
+          <CollapsibleContent
+            className="
+              ml-12 mt-1 space-y-1
+              overflow-hidden
+              data-[state=open]:animate-collapsible-down
+              data-[state=closed]:animate-collapsible-up
+            "
+          >
             {item.children.map((child) => (
               <SidebarMenuButton
                 key={child.href}
                 asChild
                 isActive={pathname === child.href}
-                className="text-sm"
+                className="text-sm text-gray-200"
               >
                 <Link href={child.href}>{child.title}</Link>
               </SidebarMenuButton>

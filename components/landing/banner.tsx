@@ -60,7 +60,7 @@ export default function Banners() {
       <div className="pb-10">
         <Button
           className="h-10 w-[180px] rounded-xl bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-base"
-          onClick={() => router.push('/auth/member')}
+          onClick={() => router.push('/auth/register')}
         >
           Join Now <ArrowRight />
         </Button>
