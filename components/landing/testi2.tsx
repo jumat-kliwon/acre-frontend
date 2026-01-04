@@ -44,7 +44,7 @@ export default function Testi2() {
                 {/* Thumbnail */}
                 <div className="relative w-full h-full">
                   <Image
-                    src="https://akademicreator.com/wp-content/uploads/2024/10/video-testimony-revs.webp"
+                    src="/images/video1.webp"
                     alt="Play Video"
                     className="object-cover"
                     fill
@@ -74,7 +74,7 @@ export default function Testi2() {
                 {/* Thumbnail */}
                 <div className="relative w-full h-full">
                   <Image
-                    src="https://akademicreator.com/wp-content/uploads/2024/10/video-hero-newplay-b.webp"
+                    src="/images/video2.webp"
                     alt="Play Videos"
                     className="object-cover"
                     fill

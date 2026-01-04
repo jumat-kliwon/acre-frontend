@@ -11,8 +11,7 @@ const BONUS_LIST = [
     + bang Ogut (1x). Kamu bisa tanya tentang konten, bisnis, dan bisa minta
     bedah akunmu dari mana yang salah. Sudah konsisten 6 tahun sejak 2019.`,
     value: 'Senilai Rp1.500.000/bln',
-    image:
-      'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-10T204030.680-1024x899.webp',
+    image: '/images/section1.webp',
   },
   {
     number: '02',
@@ -21,8 +20,7 @@ const BONUS_LIST = [
     Akademi Creator dari mulai konten yang works dan cara jualan produk digital
     yang paling works.`,
     value: 'Senilai Rp1.500.000/bln',
-    image:
-      'https://akademicreator.com/wp-content/uploads/2025/03/Bonus-Member-02-1024x713.webp',
+    image: '/images/section2.webp',
   },
   {
     number: '03',
@@ -31,8 +29,7 @@ const BONUS_LIST = [
     berbagai industri. Semua sharing eksklusif dan biasanya berbayar, tapi di
     sini free.`,
     value: 'Senilai Rp1.000.000/bln',
-    image:
-      'https://akademicreator.com/wp-content/uploads/2025/03/Bonus-Member-03-1024x988.webp',
+    image: '/images/section3.webp',
   },
   {
     number: '04',
@@ -40,8 +37,7 @@ const BONUS_LIST = [
     desc: `Selain live mentoring mingguan, kamu juga akan dibimbing langsung oleh
     Bang Ogut setiap bulannya. Fokus QnA dan bedah akun secara mendalam.`,
     value: 'Senilai Rp30.000.000/bln',
-    image:
-      'https://akademicreator.com/wp-content/uploads/2025/03/Bonus-Member-04-rev4-1024x531.png',
+    image: '/images/section4.webp',
   },
 ];
 

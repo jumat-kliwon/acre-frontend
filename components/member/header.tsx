@@ -16,8 +16,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User, Settings, Bell, LogOut } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
+import { useLogout } from '../auth/logout/hook';
 
 export default function MemberHeader() {
+  const { mutate, isPending } = useLogout();
   const router = useRouter();
 
   return (
@@ -28,7 +30,7 @@ export default function MemberHeader() {
           <SidebarTrigger className="text-white hover:bg-white/10" />
 
           <Image
-            src="https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-10T202308.009.webp"
+            src="/images/logo.webp"
             alt="ACRE Logo"
             width={150}
             height={20}
@@ -98,10 +100,11 @@ export default function MemberHeader() {
 
               <DropdownMenuItem
                 className="text-red-500 hover:bg-red-500/10 focus:text-red-500"
-                onClick={() => router.push('/auth/login')}
+                onClick={() => mutate()}
+                disabled={isPending}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                Logout
+                {isPending ? 'Logging out...' : 'Logout'}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

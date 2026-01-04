@@ -23,6 +23,7 @@ import Image from 'next/image';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { useRouter } from 'next/navigation';
+import { useProfile } from '../profile/hook';
 
 const stats = [
   {
@@ -119,6 +120,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export function DashboardStats() {
+  const { data: profile, isLoading } = useProfile();
   const router = useRouter();
 
   return (
@@ -134,7 +136,7 @@ export function DashboardStats() {
                       Welcome Back
                     </p>
                     <p className="text-gray-100 text-xl font-bold text-center md:text-start">
-                      Moh Asdita
+                      {profile?.user.name ?? 'User'}
                     </p>
                   </div>
                   <div className="flex gap-2 mt-3 md:mt-0">

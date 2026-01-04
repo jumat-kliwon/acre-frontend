@@ -7,26 +7,36 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { ChevronLeft, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useLogin } from './hook';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const router = useRouter();
+  const { mutate, isPending } = useLogin();
+
+  const onSubmit = () => {
+    mutate({ email, password });
+  };
 
   return (
     <div className="min-h-screen flex flex-col space-y-8 items-center justify-center bg-black text-white">
       <div className="w-full max-w-md px-6">
-        {/* Title */}
         <h1 className="text-4xl font-bold text-center mb-10">Login</h1>
 
-        {/* Username / Email */}
+        {/* Email */}
         <div className="mb-5">
           <Label className="text-sm text-muted-foreground">
             Username atau Email
           </Label>
           <Input
-            className="mt-2 h-12 rounded-xl bg-zinc-900 border-zinc-800 text-white placeholder:text-zinc-500"
+            className="mt-2 h-12 rounded-xl bg-zinc-900 border-zinc-800 text-white"
             placeholder="Enter your mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -38,6 +48,8 @@ export default function LoginPage() {
               type={showPassword ? 'text' : 'password'}
               className="h-12 rounded-xl bg-zinc-900 border-zinc-800 pr-12 text-white"
               placeholder="••••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button
               type="button"
@@ -49,7 +61,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Remember me */}
+        {/* Remember */}
         <div className="flex items-center gap-2 mb-8">
           <Checkbox
             id="remember"
@@ -64,9 +76,10 @@ export default function LoginPage() {
         {/* Button */}
         <Button
           className="w-full h-12 rounded-xl bg-red-600 hover:bg-red-700 text-white text-base"
-          onClick={() => router.push('/member/dashboard')}
+          onClick={onSubmit}
+          disabled={isPending}
         >
-          LOG IN
+          {isPending ? 'Loading...' : 'LOG IN'}
         </Button>
 
         {/* Links */}
@@ -74,7 +87,7 @@ export default function LoginPage() {
           <p>
             Lupa atau tidak tahu password?{' '}
             <span
-              className="text-white underline"
+              className="text-white underline cursor-pointer"
               onClick={() => router.push('/auth/forgot-password')}
             >
               Atur Password Disini
@@ -83,7 +96,7 @@ export default function LoginPage() {
           <p>
             Belum memiliki akun?{' '}
             <span
-              className="text-white underline"
+              className="text-white underline cursor-pointer"
               onClick={() => router.push('/auth/register')}
             >
               Register sekarang
@@ -91,6 +104,7 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
+
       <Button
         variant="secondary"
         className="flex items-center gap-5"

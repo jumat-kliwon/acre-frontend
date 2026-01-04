@@ -11,7 +11,7 @@ export default function HeaderLanding() {
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
         <Image
-          src="https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-10T202308.009.webp"
+          src="/images/logo.webp"
           alt="ACRE Logo"
           width={140}
           height={32}

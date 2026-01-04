@@ -20,7 +20,7 @@ export default function Promote2() {
       </div>
       <div className="relative w-[0.5px] h-[100px] md:h-[200px]">
         <Image
-          src="https://akademicreator.com/wp-content/uploads/2024/07/Vector-7499.webp"
+          src="/images/arrow.webp"
           alt="separator"
           fill
           priority
@@ -29,7 +29,7 @@ export default function Promote2() {
       </div>
       <div className="relative w-full h-[100px] md:h-[200px]">
         <Image
-          src="https://akademicreator.com/wp-content/uploads/2025/04/video-learnings-facts-rev10.webp"
+          src="/images/stat.webp"
           alt="separator"
           fill
           className="object-contain"
@@ -40,7 +40,7 @@ export default function Promote2() {
       <div className="pb-10">
         <Button
           className="h-10 w-[180px] rounded-xl bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-base"
-          onClick={() => router.push('/auth/register')}
+          onClick={() => router.push('/#join-now')}
         >
           Join Now <ArrowRight />
         </Button>

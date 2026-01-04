@@ -17,7 +17,7 @@ const BENEFITS = [
 
 export default function Price() {
   return (
-    <section className="relative text-white mb-20">
+    <section className="relative text-white mb-20" id="join-now">
       <h2 className="text-center text-4xl md:text-5xl font-bold mb-10">
         JOIN & DAFTAR SEKARANG!
       </h2>
@@ -30,7 +30,7 @@ export default function Price() {
             <div>
               <div className="space-y-3">
                 <Image
-                  src="https://akademicreator.com/wp-content/uploads/2025/01/image-65.webp"
+                  src="/images/logo-only.webp"
                   alt="ACRE Logo"
                   width={50}
                   height={50}

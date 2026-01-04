@@ -7,8 +7,7 @@ export default function Profit() {
     <section
       className="w-full pb-8 pt-15 px-4"
       style={{
-        backgroundImage:
-          'url("https://akademicreator.com/wp-content/uploads/2024/10/BG-red-grad-768x230.webp")',
+        backgroundImage: 'url("/images/bg-red.webp")',
         backgroundPosition: 'top center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '1000px',

@@ -18,24 +18,23 @@ export default function Increase() {
         <div className="space-y-10">
           <CaseStudyCarousel
             images={[
-              'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-12T145955.662.webp',
-              'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-11T142204.937.webp',
-              'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-11T144240.522.webp',
-              'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-11T144309.098.webp',
-              'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-11T144348.963.webp',
-              'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-11T144421.931.webp',
-              'https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-11T144453.050.webp',
+              '/images/increase1.webp',
+              '/images/increase2.webp',
+              '/images/increase3.webp',
+              '/images/increase4.webp',
+              '/images/increase5.webp',
+              '/images/increase6.webp',
+              '/images/increase7.webp',
             ]}
           />
 
           <CaseStudyCarousel
             images={[
-              'https://akademicreator.com/wp-content/uploads/2025/03/Pendapatan-Fadli2.webp',
-              'https://akademicreator.com/wp-content/uploads/2025/03/Pendapatan-Dimas2.webp',
-              'https://akademicreator.com/wp-content/uploads/2025/03/Pendapatan-Anwar-Choladi2.webp',
-              'https://akademicreator.com/wp-content/uploads/2025/03/Pendapatan-Sholeh2.webp',
-              'https://akademicreator.com/wp-content/uploads/2025/03/Pendapatan-Putri-Mulia2.webp',
-              'https://akademicreator.com/wp-content/uploads/2025/03/Pendapatan-Gio2.webp',
+              '/images/increase8.webp',
+              '/images/increase9.webp',
+              '/images/increase10.webp',
+              '/images/increase11.webp',
+              '/images/increase12.webp',
             ]}
           />
         </div>

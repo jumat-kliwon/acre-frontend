@@ -14,50 +14,26 @@ import {
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toTitleCase } from '@/lib/helpers';
-
-/* =====================
-   Dummy Data
-===================== */
-const COURSES = Array.from({ length: 50 }).map((_, i) => ({
-  id: i + 1,
-  name: `Course ${i + 1}`,
-  category: ['Design', 'Development', 'Data'][i % 3],
-  instructor: ['John Doe', 'Jane Smith', 'Alex Johnson'][i % 3],
-  level: ['Beginner', 'Intermediate', 'Advanced'][i % 3],
-}));
+import { useCourses } from './hook';
 
 const PAGE_SIZE = 12;
 
 export default function CourseList() {
   const searchParams = useSearchParams();
   const overview = searchParams.get('courses');
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('all');
-  const [instructor, setInstructor] = useState('all');
-  const [level, setLevel] = useState('all');
-  const [page, setPage] = useState(1);
   const router = useRouter();
 
-  /* =====================
-     Filtering Logic
-  ===================== */
-  const filtered = useMemo(() => {
-    return COURSES.filter((c) => {
-      if (search && !c.name.toLowerCase().includes(search.toLowerCase()))
-        return false;
-      if (category !== 'all' && c.category !== category) return false;
-      if (instructor !== 'all' && c.instructor !== instructor) return false;
-      if (level !== 'all' && c.level !== level) return false;
-      return true;
-    });
-  }, [search, category, instructor, level]);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
 
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const { data, isLoading } = useCourses({
+    page,
+    limit: PAGE_SIZE,
+    search,
+  });
 
-  const paginated = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return filtered.slice(start, start + PAGE_SIZE);
-  }, [filtered, page]);
+  const courses = data?.data ?? [];
+  const totalPages = data ? Math.ceil(Number(data.meta.to) / PAGE_SIZE) : 1;
 
   /* Reset page when filter changes */
   const resetPage = () => setPage(1);
@@ -98,7 +74,7 @@ export default function CourseList() {
               </SelectContent>
             </Select> */}
 
-            <Select
+            {/* <Select
               value={instructor}
               onValueChange={(v) => {
                 setInstructor(v);
@@ -132,52 +108,57 @@ export default function CourseList() {
                 <SelectItem value="Intermediate">Intermediate</SelectItem>
                 <SelectItem value="Advanced">Advanced</SelectItem>
               </SelectContent>
-            </Select>
+            </Select> */}
           </div>
         </CardContent>
       </Card>
 
       {/* ===================== List ===================== */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {paginated.map((course) => (
-          <Card
-            key={course.id}
-            className="relative p-0 gap-0 cursor-pointer"
-            onClick={() => {
-              router.push(`/member/courses/1`);
-            }}
-          >
-            <CardHeader className="p-0 mb-0">
-              <div className="relative h-[200px] w-full">
-                <Image
-                  src="https://member.akademicreator.com/wp-content/uploads/2023/07/0.-FAST-TRACK-CREATOR-600x400.webp"
-                  alt={course.name}
-                  fill
-                  className="object-cover rounded-t-lg"
-                  priority
-                  unoptimized
-                />
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-1 text-sm text-muted-foreground py-4">
-              <h3 className="font-semibold h-[50px]">
-                {course.name} of {course.category}
-              </h3>
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-xs text-gray-500">Category</div>{' '}
-                <div className="text-xs text-gray-100">{course.category}</div>
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-xs text-gray-500">Instructor</div>{' '}
-                <div className="text-xs text-gray-100">{course.instructor}</div>
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="text-xs text-gray-500">Level</div>{' '}
-                <div className="text-xs text-gray-100">{course.level}</div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-[280px] bg-zinc-800 rounded-lg animate-pulse"
+              />
+            ))
+          : courses.map((course) => (
+              <Card
+                key={course.id}
+                className="cursor-pointer"
+                onClick={() => router.push(`/member/courses/${course.slug}`)}
+              >
+                <CardHeader className="p-0">
+                  <div className="relative h-[200px]">
+                    <Image
+                      src={
+                        course.thumbnail
+                          ? `https://lms.acrehub.lol/${course.thumbnail}`
+                          : '/images/course-placeholder.png'
+                      }
+                      alt={course.title}
+                      fill
+                      className="object-cover rounded-t-lg"
+                      unoptimized
+                    />
+                  </div>
+                </CardHeader>
+
+                <CardContent className="space-y-2 py-4">
+                  <h3 className="font-semibold line-clamp-2">{course.title}</h3>
+
+                  <div className="flex justify-between text-xs">
+                    <span className="text-gray-500">Category</span>
+                    <span>{course.category.name}</span>
+                  </div>
+
+                  <div className="flex justify-between text-xs">
+                    <span className="text-gray-500">Instructor</span>
+                    <span>{course.instructor.name}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
       </div>
 
       {/* ===================== Pagination ===================== */}
@@ -190,13 +171,11 @@ export default function CourseList() {
           Prev
         </Button>
 
-        <span className="text-sm text-muted-foreground">
-          Page {page} of {totalPages}
-        </span>
+        <span className="text-sm">Page {page}</span>
 
         <Button
           variant="outline"
-          disabled={page === totalPages}
+          disabled={!data?.links.next}
           onClick={() => setPage((p) => p + 1)}
         >
           Next

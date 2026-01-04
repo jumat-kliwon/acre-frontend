@@ -14,7 +14,7 @@ export default function Testimoni() {
       <div className="mb-5">
         <div className="relative w-full h-[200px] md:h-[400px]">
           <Image
-            src="https://akademicreator.com/wp-content/uploads/2025/03/100k-Folllowes-dalam-2-bulan-bged4.webp"
+            src="/images/testi1.webp"
             alt="banner"
             fill
             className="object-cover"
@@ -30,7 +30,7 @@ export default function Testimoni() {
       <div className="mb-5">
         <div className="relative w-full h-[200px] md:h-[400px]">
           <Image
-            src="https://akademicreator.com/wp-content/uploads/2025/03/Penghasilan-Alumni-BG-ed.webp"
+            src="/images/testi2.webp"
             alt="banner"
             fill
             className="object-cover"

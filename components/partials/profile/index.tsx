@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,17 +12,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useProfile } from './hook';
 
 export default function ProfilePage() {
+  const { data: profile, isLoading } = useProfile();
   const [isEdit, setIsEdit] = useState(false);
 
   const [form, setForm] = useState({
-    email: 'user@email.com',
+    email: profile?.user.email ?? '',
     package: 'Premium',
-    name: 'John Doe',
+    name: profile?.user.name ?? '',
     dob: '',
     gender: '',
-    phone: '',
+    phone: profile?.user.phone_number ?? '',
     password: '',
     confirmPassword: '',
   });

@@ -38,7 +38,7 @@ export default function Banners() {
             {/* Thumbnail */}
             <div className="relative w-full h-100">
               <Image
-                src="https://akademicreator.com/wp-content/uploads/2025/07/Opening-Video-New-rev2-1.webp"
+                src="/images/banner.webp"
                 alt="Play Video"
                 className="object-cover"
                 fill
@@ -60,7 +60,7 @@ export default function Banners() {
       <div className="pb-10">
         <Button
           className="h-10 w-[180px] rounded-xl bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-base"
-          onClick={() => router.push('/auth/register')}
+          onClick={() => router.push('/#join-now')}
         >
           Join Now <ArrowRight />
         </Button>

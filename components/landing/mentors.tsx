@@ -11,14 +11,14 @@ import { ArrowDownRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const mentors = [
-  'https://akademicreator.com/wp-content/uploads/2025/03/Mentor-Ogut1-rev.webp',
-  'https://akademicreator.com/wp-content/uploads/2025/03/Mentor-Raden1-rev3.webp',
-  'https://akademicreator.com/wp-content/uploads/2025/03/Mentor-Syafiul1-rev2.webp',
-  'https://akademicreator.com/wp-content/uploads/2025/03/LP-Mentors-Adjusted-Hendra.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/a4-1.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/a5-1.webp',
-  'https://akademicreator.com/wp-content/uploads/2025/03/LP-Mentors-Adjusted-Aldela-New.webp',
-  'https://akademicreator.com/wp-content/uploads/2025/03/Mentor-Shiffa-Kelana.webp',
+  '/images/mentor1.webp',
+  '/images/mentor2.webp',
+  '/images/mentor3.webp',
+  '/images/mentor4.webp',
+  '/images/mentor5.webp',
+  '/images/mentor6.webp',
+  '/images/mentor7.webp',
+  '/images/mentor8.webp',
 ];
 
 export default function Mentors() {
@@ -60,7 +60,7 @@ export default function Mentors() {
       <div className="pb-10">
         <Button
           className="h-10 w-[180px] rounded-xl bg-gradient-to-r from-red-600 to-red-900 hover:bg-red-700 text-white text-base"
-          onClick={() => router.push('/auth/register')}
+          onClick={() => router.push('/#join-now')}
         >
           Join Now <ArrowDownRight />
         </Button>

@@ -3,24 +3,24 @@
 import Image from 'next/image';
 
 const COL_1 = [
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-69.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-74.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-75.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-79.webp',
+  '/images/testimoni1.webp',
+  '/images/testimoni2.webp',
+  '/images/testimoni3.webp',
+  '/images/testimoni4.webp',
 ];
 
 const COL_2 = [
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-71.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-73.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-77.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-70.webp',
+  '/images/testimoni5.webp',
+  '/images/testimoni6.webp',
+  '/images/testimoni7.webp',
+  '/images/testimoni8.webp',
 ];
 
 const COL_3 = [
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-72.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-76.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-78.webp',
-  'https://akademicreator.com/wp-content/uploads/2024/07/image-80.webp',
+  '/images/testimoni9.webp',
+  '/images/testimoni10.webp',
+  '/images/testimoni11.webp',
+  '/images/testimoni12.webp',
 ];
 
 export default function ProofGrid() {

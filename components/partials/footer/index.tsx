@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <Image
-              src="https://akademicreator.com/wp-content/uploads/2024/07/image-2024-07-10T202308.009.webp"
+              src="/images/logo.webp"
               alt="ACRE Logo"
               width={150}
               height={20}
