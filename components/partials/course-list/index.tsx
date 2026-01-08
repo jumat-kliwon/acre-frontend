@@ -16,7 +16,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { toTitleCase } from '@/lib/helpers';
 import { useCourses } from './hook';
 import { Course } from '@/services/course/type';
-import { CircleDollarSignIcon, LucideLockKeyhole } from 'lucide-react';
+import {
+  ArrowRight,
+  CircleDollarSignIcon,
+  LucideLockKeyhole,
+  LucideMessageCircleX,
+} from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const PAGE_SIZE = 12;
 
@@ -36,7 +42,6 @@ export default function CourseList() {
   });
 
   const courses = data?.data ?? [];
-  const totalPages = data ? Math.ceil(Number(data.meta.to) / PAGE_SIZE) : 1;
 
   /* Reset page when filter changes */
   const resetPage = () => setPage(1);
@@ -148,6 +153,45 @@ export default function CourseList() {
           Next
         </Button>
       </div>
+
+      <Dialog open={membershipModal} onOpenChange={setMembershipModal}>
+        <DialogContent className="w-full md:max-w-md">
+          <div className="space-y-4">
+            {/* Header */}
+            <div className="flex flex-col items-center justify-center text-sm">
+              <LucideMessageCircleX size={100} className="mb-6" />
+              <div className="text-center text-3xl font-bold">Oops</div>
+              <div className="text-center font-semibold text-gray-300 mt-3">
+                This course isn’t available to you yet. Purchase now and get
+                instant access.
+              </div>
+
+              <div className="flex items-center justify-between mt-10 w-full gap-6">
+                <Button
+                  variant="secondary"
+                  className="w-1/3 flex items-center gap-5 mb-6 bg-gradient-to-r from-zinc-800 to-zinc-900 cursor-pointer hover:bg-black"
+                  onClick={() => {
+                    setMembershipModal(false);
+                  }}
+                >
+                  <div>Later</div>
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  className="w-1/2 flex items-center gap-5 mb-6 bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black"
+                  onClick={() => {
+                    router.push('/member/order');
+                  }}
+                >
+                  <div>Order now</div>
+                  <ArrowRight />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

@@ -438,7 +438,7 @@ export default function CourseListDetail() {
               <BadgeCheckIcon size={100} className="mb-6" />
               <div className="text-center text-3xl font-bold">Successfully</div>
               <div className="text-center font-semibold text-gray-300 mt-3">
-                Lanjutkan materi lain ?
+                Stay on this modules ?
               </div>
 
               <div className="flex items-center justify-between mt-10 w-full gap-6">
@@ -451,7 +451,7 @@ export default function CourseListDetail() {
                     detailHook.setIdLessons(null);
                   }}
                 >
-                  <div>Nanti</div>
+                  <div>Later</div>
                 </Button>
 
                 <Button
@@ -463,7 +463,7 @@ export default function CourseListDetail() {
                   }}
                 >
                   <CheckCheck />
-                  <div>Ya !</div>
+                  <div>Yes!</div>
                 </Button>
               </div>
             </div>
