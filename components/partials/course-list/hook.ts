@@ -8,17 +8,18 @@ interface UseCoursesParams {
   page: number;
   limit: number;
   search: string;
+  category: string;
 }
 
-export const useCourses = ({ page, limit, search }: UseCoursesParams) => {
+export const useCourses = ({ page, limit, search, category }: UseCoursesParams) => {
   return useQuery({
-    queryKey: ['courses', page, limit, search],
+    queryKey: ['courses', page, limit, search, category],
     queryFn: () =>
       CourseService.getCourses({
         page,
         limit,
         search: search || null,
-        category_id: null,
+        category: category,
       }),
     // keepPreviousData: true,
   });

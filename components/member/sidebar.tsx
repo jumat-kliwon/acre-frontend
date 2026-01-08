@@ -27,57 +27,59 @@ import {
   UserStarIcon,
 } from 'lucide-react';
 import { useState } from 'react';
-import { SidebarItem } from '@/types/slice';
+import { SidebarChild, SidebarItem } from '@/types/slice';
 import Image from 'next/image';
-
-const menuItems: SidebarItem[] = [
-  {
-    title: 'Dashboard',
-    href: '/member/dashboard',
-    icon: LayoutDashboard,
-  },
-  {
-    title: 'Courses',
-    href: '/member/courses',
-    icon: BookOpen,
-    children: [
-      {
-        title: 'Content Fundamental',
-        href: '/member/courses?courses=content-fundamental',
-      },
-      {
-        title: 'Personal Branding',
-        href: '/member/courses?courses=personal-branding',
-      },
-      { title: 'Algorithm', href: '/member/courses?courses=algorithm' },
-      {
-        title: 'Video & Editing',
-        href: '/member/courses?courses=video-editing',
-      },
-      {
-        title: 'Artificial Intelegence',
-        href: '/member/courses?courses=artificial-intelegence',
-      },
-    ],
-  },
-  {
-    title: 'Subscriptions',
-    href: '/member/subscriptions',
-    icon: BadgeDollarSignIcon,
-  },
-  {
-    title: 'Certificates',
-    href: '/member/certificates',
-    icon: IdCardIcon,
-  },
-  {
-    title: 'Affiliate',
-    href: '/member/affiliates',
-    icon: UserStarIcon,
-  },
-];
+import { useQuery } from '@tanstack/react-query';
+import { CourseService } from '@/services/course';
+import { Category } from '@/services/course/type';
 
 export default function MemberSidebar() {
+  const { data: dataCategory, isLoading: loadingDataCategory } = useQuery({
+    queryKey: ['dataCategory'],
+    queryFn: () => CourseService.getCourseCategory(),
+  });
+
+  const mapCategoryToSidebarChildren = (
+    categories: Category[] = [],
+  ): SidebarChild[] => {
+    return categories.map((item) => ({
+      title: item.name,
+      href: `/member/courses?category=${item.slug}`,
+      ...(item.children &&
+        item.children.length > 0 && {
+          children: mapCategoryToSidebarChildren(item.children),
+        }),
+    }));
+  };
+
+  const menuItems: SidebarItem[] = [
+    {
+      title: 'Dashboard',
+      href: '/member/dashboard',
+      icon: LayoutDashboard,
+    },
+    {
+      title: 'Courses',
+      href: '/member/courses',
+      icon: BookOpen,
+      children: mapCategoryToSidebarChildren(dataCategory?.data ?? []),
+    },
+    {
+      title: 'Subscriptions',
+      href: '/member/subscriptions',
+      icon: BadgeDollarSignIcon,
+    },
+    {
+      title: 'Certificates',
+      href: '/member/certificates',
+      icon: IdCardIcon,
+    },
+    {
+      title: 'Affiliate',
+      href: '/member/affiliates',
+      icon: UserStarIcon,
+    },
+  ];
   const pathname = usePathname();
 
   return (
@@ -140,6 +142,86 @@ export default function MemberSidebar() {
 // COLLAPSIBLE COMPONENT
 // =============================
 
+function SidebarRecursiveChild({
+  item,
+  pathname,
+  level = 0,
+}: {
+  item: SidebarChild;
+  pathname: string;
+  level?: number;
+}) {
+  const hasChildren = !!item.children?.length;
+  const [open, setOpen] = useState(hasChildren);
+
+  // 👉 LEAF
+  if (!hasChildren) {
+    return (
+      <SidebarMenuButton
+        asChild
+        isActive={pathname === item.href}
+        className="text-sm text-gray-200"
+        style={{ paddingLeft: `${16}px` }}
+      >
+        <Link href={item.href}>{item.title}</Link>
+      </SidebarMenuButton>
+    );
+  }
+
+  // 👉 NODE WITH CHILDREN
+  return (
+    <div>
+      <div
+        className="flex items-center justify-between"
+        style={{ paddingLeft: `${16}px` }}
+      >
+        {/* LINK */}
+        <SidebarMenuButton
+          asChild
+          isActive={pathname.startsWith(item.href)}
+          className="text-sm text-gray-200 flex-1 p-0"
+        >
+          <Link href={item.href} className="block truncate">
+            {item.title}
+          </Link>
+        </SidebarMenuButton>
+
+        {/* CHEVRON */}
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="p-1 text-gray-400 hover:text-white"
+        >
+          <ChevronDown
+            className={`h-3 w-3 transition-transform duration-200 ${
+              open ? 'rotate-180' : ''
+            }`}
+          />
+        </button>
+      </div>
+
+      {/* 🔥 ANIMATED COLLAPSE */}
+      <div
+        className={`
+          ml-3 overflow-hidden transition-all duration-300 ease-in-out
+          ${open ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}
+        `}
+      >
+        <div className="space-y-1">
+          {item.children!.map((child) => (
+            <SidebarRecursiveChild
+              key={child.href}
+              item={child}
+              pathname={pathname}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SidebarCollapsibleMenu({
   item,
   pathname,
@@ -178,21 +260,18 @@ function SidebarCollapsibleMenu({
         {item.children && (
           <CollapsibleContent
             className="
-              ml-12 mt-1 space-y-1
+              ml-6 mt-1 space-y-1
               overflow-hidden
               data-[state=open]:animate-collapsible-down
               data-[state=closed]:animate-collapsible-up
             "
           >
             {item.children.map((child) => (
-              <SidebarMenuButton
+              <SidebarRecursiveChild
                 key={child.href}
-                asChild
-                isActive={pathname === child.href}
-                className="text-sm text-gray-200"
-              >
-                <Link href={child.href}>{child.title}</Link>
-              </SidebarMenuButton>
+                item={child}
+                pathname={pathname}
+              />
             ))}
           </CollapsibleContent>
         )}
