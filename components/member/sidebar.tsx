@@ -145,6 +145,7 @@ export default function MemberSidebar() {
                         onClick={() => {
                           setChildList(item.children || []);
                           setOpen(false);
+                          router.push(item.href);
                         }}
                         className="cursor-pointer"
                       >
@@ -157,6 +158,7 @@ export default function MemberSidebar() {
                       </div>
                     ) : (
                       <div
+                        className="cursor-pointer"
                         onClick={() => {
                           router.push(item.href);
                           setChildList([]);

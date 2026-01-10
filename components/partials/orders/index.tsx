@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { BadgeCheckIcon } from 'lucide-react';
+import { ArrowRight, BadgeCheckIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,46 +20,38 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { useState } from 'react';
-
-const myCourses = [
-  {
-    id: 1,
-    title: 'Lifetime Subscription',
-    valid_date: 'Sep 2025 - Sep 2026',
-    status: 'active',
-  },
-  {
-    id: 2,
-    title: 'Lifetime Subscription',
-    valid_date: 'Jul 2024 - Jul 2025',
-    status: 'expired',
-  },
-  {
-    id: 3,
-    title: 'Lifetime Subscription',
-    valid_date: 'May 2022 - May 2023',
-    status: 'expired',
-  },
-];
+import { useOrders } from './hook';
+import { formatCurrency, formatDate } from '@/lib/helpers';
+import { Order } from '@/services/order/type';
+import { useRouter } from 'next/navigation';
 
 function StatusBadge({ status }: { status: string }) {
-  if (status === 'active') {
-    return <Badge className="bg-green-100 text-green-700">Active</Badge>;
-  }
-
-  return <Badge className="bg-red-100 text-red-700">Expired</Badge>;
+  return <Badge className="bg-gray-100 text-gray-700">{status}</Badge>;
 }
 
 export function OrderBill() {
+  const router = useRouter();
+  const orderData = useOrders();
   const [open, onOpenChange] = useState(false);
+  const [detailInvoice, setDetailInvoice] = useState<Order>();
 
   return (
     <section className="space-y-10">
       <div className="text-center flex flex-col items-center justify-center space-y-3">
         <BadgeCheckIcon className="w-30 h-30" />
 
-        <div className="font-semibold">Your Subscription Already Active</div>
-        <div className="text-gray-400">Expired at September 2026</div>
+        <div className="font-semibold">
+          You are currently on a subscription plan
+        </div>
+        <Button
+          size="sm"
+          variant="secondary"
+          className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm"
+          onClick={() => router.push('/member/membership')}
+        >
+          New Order
+          <ArrowRight className="text-white" />
+        </Button>
       </div>
 
       <Card>
@@ -73,7 +65,7 @@ export function OrderBill() {
             <Table>
               <TableHeader className="hidden md:table-header-group">
                 <TableRow>
-                  <TableHead className="pl-6">Order Name</TableHead>
+                  <TableHead className="pl-6">#</TableHead>
                   <TableHead>Valid Date</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead></TableHead>
@@ -81,13 +73,15 @@ export function OrderBill() {
               </TableHeader>
 
               <TableBody>
-                {myCourses.map((course) => (
-                  <TableRow key={course.id} className="align-top">
+                {orderData.orders?.data?.map((item) => (
+                  <TableRow key={item.id} className="align-top">
                     {/* ===== MOBILE + DESKTOP MAIN COLUMN ===== */}
                     <TableCell className="pl-6 pr-6 md:pr-0">
                       {/* HEADER (ALWAYS SHOWN) */}
                       <div className="flex items-center gap-3">
-                        <span className="font-medium">{course.title}</span>
+                        <span className="font-medium">
+                          {item.invoice_number}
+                        </span>
                       </div>
 
                       {/* ===== MOBILE DETAIL ===== */}
@@ -96,12 +90,12 @@ export function OrderBill() {
                           <span className="text-muted-foreground">
                             Valid Date
                           </span>
-                          <span>{course.valid_date}</span>
+                          <span>{formatDate(item.updated_at)}</span>
                         </div>
 
                         <div className="flex justify-between items-center">
                           <span className="text-muted-foreground">Status</span>
-                          <StatusBadge status={course.status} />
+                          <StatusBadge status={item.status_label} />
                         </div>
                         <Button
                           size="sm"
@@ -115,11 +109,11 @@ export function OrderBill() {
 
                     {/* ===== DESKTOP ONLY COLUMNS ===== */}
                     <TableCell className="hidden md:table-cell">
-                      {course.valid_date}
+                      {formatDate(item.updated_at)}
                     </TableCell>
 
                     <TableCell className="hidden md:table-cell">
-                      <StatusBadge status={course.status} />
+                      <StatusBadge status={item.status_label} />
                     </TableCell>
 
                     <TableCell className="hidden md:table-cell">
@@ -127,7 +121,10 @@ export function OrderBill() {
                         size="sm"
                         variant="secondary"
                         className="bg-gradient-to-r from-zinc-800 to-zinc-900 hover:bg-zinc-700 cursor-pointer text-white text-sm"
-                        onClick={() => onOpenChange(true)}
+                        onClick={() => {
+                          onOpenChange(true);
+                          setDetailInvoice(item);
+                        }}
                       >
                         View Invoice
                       </Button>
@@ -151,11 +148,15 @@ export function OrderBill() {
             <div className="flex justify-between text-sm">
               <div>
                 <p className="font-medium">Invoice No</p>
-                <p className="text-muted-foreground">INV-2025-001</p>
+                <p className="text-muted-foreground">
+                  {detailInvoice?.invoice_number}
+                </p>
               </div>
               <div className="text-right">
                 <p className="font-medium">Date</p>
-                <p className="text-muted-foreground">15 Dec 2025</p>
+                <p className="text-muted-foreground">
+                  {formatDate(detailInvoice?.created_at)}
+                </p>
               </div>
             </div>
 
@@ -163,24 +164,17 @@ export function OrderBill() {
 
             {/* Customer */}
             <div className="text-sm">
-              <p className="font-medium">Bill To</p>
-              <p className="text-muted-foreground">
-                PT Academi Creator Indonesia
-              </p>
-            </div>
-
-            <Separator />
-
-            {/* Items */}
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Package</span>
-                <span>Rp 2.500.000</span>
-              </div>
-              <div className="flex justify-between">
-                <span>PPN</span>
-                <span>Rp 58.000</span>
-              </div>
+              <p className="font-medium">Items Order</p>
+              {detailInvoice?.order_items.map((item, i) => (
+                <div className="flex flex-col md:flex-row gap-3 w-full" key={i}>
+                  <div className="text-muted-foreground w-2/3">
+                    #{item.id} - {item.name}
+                  </div>
+                  <div className="text-muted-foreground w-1/3 text-end">
+                    {formatCurrency(item.price)}
+                  </div>
+                </div>
+              ))}
             </div>
 
             <Separator />
@@ -188,7 +182,9 @@ export function OrderBill() {
             {/* Total */}
             <div className="flex justify-between font-semibold">
               <span>Total</span>
-              <span>Rp 2.558.000</span>
+              <span>
+                Rp {formatCurrency(Number(detailInvoice?.total_amount))}
+              </span>
             </div>
 
             {/* Actions */}

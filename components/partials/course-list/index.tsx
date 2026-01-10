@@ -18,7 +18,6 @@ import { useCourses } from './hook';
 import { Course } from '@/services/course/type';
 import {
   ArrowRight,
-  CircleDollarSignIcon,
   LucideLockKeyhole,
   LucideMessageCircleX,
 } from 'lucide-react';
@@ -58,7 +57,7 @@ export default function CourseList() {
     <section className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="text-2xl text-gray-100 font-semibold col-span-1 md:col-span-2">
-          Course of {toTitleCase(overview ?? '')}
+          Course {overview ? `of ${toTitleCase(overview)}` : 'List'}
         </div>
         <Input
           placeholder="Search course name"
@@ -181,7 +180,7 @@ export default function CourseList() {
                   variant="secondary"
                   className="w-1/2 flex items-center gap-5 mb-6 bg-gradient-to-r from-red-600 to-red-900 cursor-pointer hover:bg-black"
                   onClick={() => {
-                    router.push('/member/order');
+                    router.push('/member/membership');
                   }}
                 >
                   <div>Order now</div>
